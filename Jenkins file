@@ -1,0 +1,37 @@
+pipeline {
+environment {
+VENV_DIR = 'venv'
+}
+stages {
+stage('checkout SCM') {
+steps {
+echo "cloning the respository..."
+git branch: 'main',url:
+'https://github.com/NAVYA-2005777/jenkins.git'
+}
+}
+stage('install dependencies') {
+steps {
+echo 'installing dependences...'
+sh'''
+python3 -m venv
+${VENV_DIR}
+.${VENV_DIR}/bin/activate
+python -m pip install --
+upgrade pip
+python -m pip install -r
+requirments
+'''
+}
+}
+stage ('extract data from app.py and display output') {
+steps {
+script {
+//this will now correctly import get_output from app.py and print it
+sh 'python3 -c"from app import 
+get_output; print(get_output())"'
+}
+}
+}
+}
+}
